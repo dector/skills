@@ -2,8 +2,8 @@
 
 Collection of skills I (probably) use.
 
-## grill-me
+## [askme](./askme/)
 
-Fork of [mattpocock's](https://github.com/mattpocock/skills/blob/main/grill-me/) skill.
+Hard fork of [mattpocock's](https://github.com/mattpocock/skills/blob/main/grill-me/) skill.
 But answers are tracked to the file.
 
