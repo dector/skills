@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TARGET_DIR="${SKILLS_DIR:-$HOME/.agent/skills}"
+
+shopt -s nullglob
+
+skill_dirs=()
+new_skills=()
+overwrite_skills=()
+
+for skill_dir in "$SOURCE_DIR"/*/; do
+  [[ -f "$skill_dir/SKILL.md" ]] || continue
+
+  skill_name="$(basename "$skill_dir")"
+  destination="$TARGET_DIR/$skill_name"
+
+  skill_dirs+=("$skill_dir")
+
+  if [[ -e "$destination" ]]; then
+    overwrite_skills+=("$skill_name")
+  else
+    new_skills+=("$skill_name")
+  fi
+done
+
+if [[ "${#skill_dirs[@]}" -eq 0 ]]; then
+  echo "No skills found in $SOURCE_DIR" >&2
+  exit 1
+fi
+
+echo "Install skills from: $SOURCE_DIR"
+echo "Install skills to:   $TARGET_DIR"
+echo
+
+echo "New skills (${#new_skills[@]}):"
+if [[ "${#new_skills[@]}" -eq 0 ]]; then
+  echo "  none"
+else
+  printf '  %s\n' "${new_skills[@]}"
+fi
+
+echo
+
+echo "Skills to overwrite (${#overwrite_skills[@]}):"
+if [[ "${#overwrite_skills[@]}" -eq 0 ]]; then
+  echo "  none"
+else
+  printf '  %s\n' "${overwrite_skills[@]}"
+fi
+
+echo
+read -r -p "Continue? [y/N] " answer
+case "$answer" in
+  y|Y|yes|YES)
+    ;;
+  *)
+    echo "Install cancelled."
+    exit 0
+    ;;
+esac
+
+mkdir -p "$TARGET_DIR"
+
+installed=0
+for skill_dir in "${skill_dirs[@]}"; do
+  skill_name="$(basename "$skill_dir")"
+  destination="$TARGET_DIR/$skill_name"
+
+  rm -rf "$destination"
+  mkdir -p "$destination"
+
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --delete "$skill_dir" "$destination/"
+  else
+    cp -a "$skill_dir/." "$destination/"
+  fi
+
+  echo "Installed $skill_name -> $destination"
+  installed=$((installed + 1))
+done
+
+echo "Installed $installed skill(s) to $TARGET_DIR"
