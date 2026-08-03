@@ -9,3 +9,7 @@ Also check my [pi extentions](https://github.com/dector/pi-x).
 Hard fork of [mattpocock's](https://github.com/mattpocock/skills/blob/main/grill-me/) skill.
 But answers are tracked to the file.
 
+## [askme-tree](./askme-tree/)
+
+Test variant of askme that uses `dt_` decision-tree tools as primary working memory for sections, questions, answers, and status.
+
