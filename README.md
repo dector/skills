@@ -13,3 +13,7 @@ But answers are tracked to the file.
 
 Test variant of askme that uses `dt_` decision-tree tools as primary working memory for sections, questions, answers, and status.
 
+## [why](./why/)
+
+Investigate, explain, and suggest next actions without making changes.
+
