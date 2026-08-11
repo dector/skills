@@ -7,7 +7,10 @@ Also check my [pi extentions](https://github.com/dector/pi-x).
 ## [askme](./askme/)
 
 Hard fork of [mattpocock's](https://github.com/mattpocock/skills/blob/main/grill-me/) skill.
-But answers are tracked to the file.
+
+## [askme-file](./askme-file/)
+
+Variant of askme that always tracks answers to a file.
 
 ## [askme-tree](./askme-tree/)
 
